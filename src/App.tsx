@@ -1,16 +1,28 @@
 import './globals.css'
+import { Routes, Route } from 'react-router-dom'
 
 const App = () => {
   return (
-    <div>
-        
-        App of JMP
+    <main className='flex h-screen'>
 
-        <h1 className="text-3xl text-red-500 font-bold underline">
-            Hello JMP's App
-        </h1>
+        <Routes>
+            {/* {public routes} */}
 
-    </div>
+            {/* {private routes} */}
+
+            <div>
+                
+                App of JMP
+
+                <h1 className="text-3xl text-red-500 font-bold underline">
+                    Hello JMP's App
+                </h1>
+
+            </div>
+        </Routes>
+
+    </main>
+    
   )
 }
 
