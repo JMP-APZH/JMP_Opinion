@@ -1,5 +1,8 @@
 import './globals.css'
 import { Routes, Route } from 'react-router-dom'
+import SigninForm from './_auth/forms/SigninForm'
+import { Home } from './_root/pages'
+
 
 const App = () => {
   return (
@@ -7,10 +10,13 @@ const App = () => {
 
         <Routes>
             {/* {public routes} */}
+            <Route path='/sign-in' element={<SigninForm />} />
+
 
             {/* {private routes} */}
+            <Route index element={<Home />} />
 
-            <div>
+            {/* <div>
                 
                 App of JMP
 
@@ -18,7 +24,7 @@ const App = () => {
                     Hello JMP's App
                 </h1>
 
-            </div>
+            </div> */}
         </Routes>
 
     </main>
