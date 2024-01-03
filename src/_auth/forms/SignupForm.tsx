@@ -37,7 +37,7 @@ const SignupForm = () => {
  
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof SignupValidation>) {
-    // Do something with the form values.
+    // create the user.
     // ✅ This will be type-safe and validated.
     console.log(values)
   }
