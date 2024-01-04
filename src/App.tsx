@@ -5,6 +5,7 @@ import SigninForm from './_auth/forms/SigninForm'
 import SignupForm from './_auth/forms/SignupForm'
 import { Home } from './_root/pages'
 
+import { Toaster } from "@/components/ui/toaster"
 import './globals.css'
 
 
@@ -34,6 +35,8 @@ const App = () => {
 
             </div> */}
         </Routes>
+
+        <Toaster />
 
     </main>
     
