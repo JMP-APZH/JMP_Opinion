@@ -69,7 +69,7 @@ export async function getCurrentUser() {
 
         if(!currentAccount) throw Error;
 
-        const getCurrentUser = await databases.listDocuments(
+        const currentUser = await databases.listDocuments(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
             [Query.equal('accountId', currentAccount.$id)]
@@ -77,8 +77,8 @@ export async function getCurrentUser() {
 
         if(!currentUser) throw Error;
 
-        return getCurrentUser.documents[0];
-        
+        return currentUser.documents[0];
+
     } catch (error) {
         console.log(error)
     }
