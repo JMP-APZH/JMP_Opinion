@@ -1,3 +1,4 @@
+import Bottombar from '@/components/shared/Bottombar'
 import LeftSidebar from '@/components/shared/LeftSidebar'
 import Topbar from '@/components/shared/Topbar'
 
@@ -10,9 +11,11 @@ const RootLayout = () => {
       <LeftSidebar />
 
       <section className='flex flex-1 h-full'>
+        {/* What will be displayed on home page */}
         <Outlet />
       </section>
 
+      <Bottombar />
     </div>
   )
 }
