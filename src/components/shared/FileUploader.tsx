@@ -1,14 +1,22 @@
 import React, {useCallback, useState} from 'react'
 import {useDropzone} from 'react-dropzone'
+import { Button } from '../ui/button'
 
 const FileUploader = () => {
 
+    const [file, setFile] = useState([])
     const [fileUrl, setFileUrl] = useState('')
 
     const onDrop = useCallback(acceptedFiles => {
         // Do something with the files
+        setFile(acceptedFiles)
       }, [])
-      const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+      const { getRootProps, getInputProps } = useDropzone({
+        onDrop,
+        accept: {
+            'image/*': [ '.png', '.jpeg', '.svg' ]
+        }
+    })
 
       
   return (
@@ -31,8 +39,11 @@ const FileUploader = () => {
                 height={77}
                 alt='file-upload'
                />
-               <h3>Add or Drag Photos</h3>
+               <h3 className='base-medium text-light-2 mb-2 mt-6'>Drag Photos</h3>
                <p className='text-light-4 small-regular mb-6'>SVG, PNG, JPG</p>
+               <Button className='shad-button_dark_4'>
+                    Select Photos
+               </Button>
             </div>
         )
         //   <p>Drop the files here ...</p> :
