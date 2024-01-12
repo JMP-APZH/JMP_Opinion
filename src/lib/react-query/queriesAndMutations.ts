@@ -48,6 +48,18 @@ export const useSignOutAccount = () => {
     })
 }
 
+export const useCreatePost = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: (post: INewPost) => createPost(post),
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+        });
+      },
+    });
+  };
+
 // ============================================================
 // POST QUERIES
 // ============================================================
@@ -84,17 +96,7 @@ export const useSignOutAccount = () => {
     });
   };
   
-  export const useCreatePost = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-      mutationFn: (post: INewPost) => createPost(post),
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
-        });
-      },
-    });
-  };
+  
   
   export const useGetPostById = (postId?: string) => {
     return useQuery({
