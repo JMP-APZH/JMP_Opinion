@@ -1,10 +1,9 @@
 import { bottombarLinks } from "@/constants";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 
 const Bottombar = () => {
   const { pathname } = useLocation();
-  const navigate = useNavigate();
   
   return (
     <section className="bottom-bar">
@@ -12,6 +11,7 @@ const Bottombar = () => {
             const isActive = pathname === link.route;
             return(
                 <Link
+                  key={`bottombar-${link.label}`}
                   to={link.route}
                   className={ `${isActive && 'bg-primary-500 rounded-[10px]'} flex-center flex-col gap-1 p-2 transition` }
                 >

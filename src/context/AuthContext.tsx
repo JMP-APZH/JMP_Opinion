@@ -1,5 +1,5 @@
 import { getCurrentUser } from '@/lib/appwrite/api';
-import { IcontextType } from '@/types';
+import { IUser, IcontextType } from '@/types';
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -79,7 +79,7 @@ const AuthProvider = ({ children} : { children: React.ReactNode }) => {
       ) navigate('/sign-in')
 
       checkAuthUser()
-    }, []);
+    }, [navigate]);
     
 
     const value = {
@@ -100,6 +100,7 @@ const AuthProvider = ({ children} : { children: React.ReactNode }) => {
 
 export default AuthProvider
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useUserContext = () => useContext(AuthContext);
 
 // +41 76 759 39 75 - peter

@@ -1,7 +1,7 @@
 import { ID, Query } from 'appwrite'
 
-import { INewUser } from "@/types";
-import { account, appwriteConfig, avatars, databases } from './config';
+import { INewPost, INewUser, IUser } from "@/types";
+import { appwriteConfig, account, databases, storage, avatars } from "./config";
 
 export async function createUserAccount(user: INewUser) {
     try {
@@ -94,3 +94,133 @@ export async function signOutAccount() {
         console.log(error);
     }
 }
+
+// ============================== CREATE POST
+export async function createPost(post: INewPost) {
+    try {
+      // Upload file to appwrite storage
+      const uploadedFile = await uploadFile(post.file[0]);
+  
+      if (!uploadedFile) throw Error;
+  
+      // Get file url
+      const fileUrl = getFilePreview(uploadedFile.$id);
+
+      if (!fileUrl) {
+        await deleteFile(uploadedFile.$id);
+        throw Error;
+      }
+      // Convert tags into array
+      const tags = post.tags?.replace(/ /g, "").split(",") || [];
+
+    //   const creatorID = user.id;
+
+       // Save the post in DB
+       const newPost = await databases.createDocument(
+
+        appwriteConfig.databaseId,
+        appwriteConfig.postCollectionId,
+        ID.unique(),
+        // {}
+        {
+        creator: post.userId,
+        //likes: likes,
+        // userId: post.userId,
+        caption: post.caption,
+        imageUrl: fileUrl,
+        // file: fileUrl,
+        imageId: uploadedFile.$id,
+        location: post.location,
+        tags: tags,
+        // creator: creatorID,
+        }
+      );
+
+      if (!newPost) {
+        await deleteFile(uploadedFile.$id);
+        // throw Error;
+        throw new Error("Failed to create post document.");
+      }
+  
+      return newPost;
+  
+
+    } catch (error) {
+        console.error("Error creating post document:", error);
+      }
+
+    }
+
+// ============================== UPLOAD FILE
+export async function uploadFile(file: File) {
+    try {
+      const uploadedFile = await storage.createFile(
+        appwriteConfig.storageId,
+        ID.unique(),
+        file
+      );
+  
+      return uploadedFile;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+// ============================== GET FILE URL
+   export function getFilePreview(fileId: string) {
+    try {
+      const fileUrl = storage.getFilePreview(
+        appwriteConfig.storageId,
+        fileId,
+        2000,
+        2000,
+        "top",
+        100,
+      );
+  
+      if (!fileUrl) throw Error;
+  
+      return fileUrl;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // ============================== DELETE FILE
+  export async function deleteFile(fileId: string) {
+    try {
+      await storage.deleteFile(appwriteConfig.storageId, fileId);
+  
+      return { status: "ok" };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  
+  
+ 
+  
+  
+
+//   // ============================== SAVE POST
+//   export async function savePost(userId: string, postId: string) {
+//     try {
+//       const updatedPost = await databases.createDocument(
+//         appwriteConfig.databaseId,
+//         appwriteConfig.savesCollectionId,
+//         ID.unique(),
+//         {
+//           user: userId,
+//           post: postId,
+//         }
+//       );
+  
+//       if (!updatedPost) throw Error;
+  
+//       return updatedPost;
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
