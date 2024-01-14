@@ -24,10 +24,15 @@ const PostCard = ({ post }: PostCardProps) => {
                     />
                 </Link>
                 <div className="flex flex-col">
-                    <p>
+                    <p className="base-medium lg:body-bold text-light-1">
                         { post.creator.name }
                     </p>
-                    <p>  {multiFormatDateString(post.$createdAt)} </p>
+                    <p className="subtle-semibold lg:small-regular">  
+                        {multiFormatDateString(post.$createdAt)} 
+                    </p>
+                    <p className="subtle-semibold lg:small-regular"  > 
+                        {post.location} 
+                    </p>
                 </div>
             </div>
         </div>
