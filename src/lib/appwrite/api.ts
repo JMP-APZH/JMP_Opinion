@@ -3,6 +3,11 @@ import { ID, Query } from 'appwrite'
 import { INewPost, INewUser, IUser } from "@/types";
 import { appwriteConfig, account, databases, storage, avatars } from "./config";
 
+// ============================================================
+// AUTH
+// ============================================================
+
+// ============================== SIGN UP
 export async function createUserAccount(user: INewUser) {
     try {
        const newAccount = await account.create(
@@ -31,6 +36,7 @@ export async function createUserAccount(user: INewUser) {
     }
 }
 
+// ============================== SAVE USER TO DB
 export async function saveUserToDB(user: {
     accountId: string;
     email: string;
@@ -52,6 +58,7 @@ export async function saveUserToDB(user: {
     }
 }
 
+// ============================== SIGN IN
 export async function signInAccount(user: { email: string; password: string; }) {
     try {
         const session = await account.createEmailSession(user.email, user.password);
@@ -63,6 +70,7 @@ export async function signInAccount(user: { email: string; password: string; }) 
     }
 }
 
+// ============================== GET USER
 export async function getCurrentUser() {
     try {
         const currentAccount = await account.get()
@@ -84,6 +92,7 @@ export async function getCurrentUser() {
     }
 }
 
+// ============================== SIGN OUT
 export async function signOutAccount() {
     try {
         const session = await account.deleteSession('current')
@@ -94,6 +103,10 @@ export async function signOutAccount() {
         console.log(error);
     }
 }
+
+// ============================================================
+// POSTS
+// ============================================================
 
 // ============================== CREATE POST
 export async function createPost(post: INewPost) {
@@ -209,6 +222,26 @@ export async function getRecentPosts() {
     if (!posts) throw Error;
 
     return posts;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// ============================== LIKE / UNLIKE POST
+export async function likePost(postId: string, likesArray: string[]) {
+  try {
+    const updatedPost = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      postId,
+      {
+        likes: likesArray,
+      }
+    );
+
+    if (!updatedPost) throw Error;
+
+    return updatedPost;
   } catch (error) {
     console.log(error);
   }
