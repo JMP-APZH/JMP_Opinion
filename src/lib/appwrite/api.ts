@@ -246,6 +246,27 @@ export async function likePost(postId: string, likesArray: string[]) {
     console.log(error);
   }
 }
+
+// ============================== SAVE POST
+export async function savePost(userId: string, postId: string) {
+  try {
+    const updatedPost = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.savesCollectionId,
+      ID.unique(),
+      {
+        user: userId,
+        post: postId,
+      }
+    );
+
+    if (!updatedPost) throw Error;
+
+    return updatedPost;
+  } catch (error) {
+    console.log(error);
+  }
+}
   
   
  
