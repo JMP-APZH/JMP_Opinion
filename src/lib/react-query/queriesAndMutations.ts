@@ -21,6 +21,7 @@ import { createUserAccount,
     getRecentPosts,
     likePost,
     savePost,
+    deleteSavedPost,
     // getInfinitePosts,
     // searchPosts,
     // savePost,
@@ -115,6 +116,24 @@ export const useSavePost = () => {
   });
 };
 
+export const useDeleteSavedPost = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (savedRecordId: string) => deleteSavedPost(savedRecordId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_POSTS],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+    },
+  });
+};
+
 
 
 // ============================================================
@@ -195,21 +214,5 @@ export const useSavePost = () => {
   
  
   
-  export const useDeleteSavedPost = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-      mutationFn: (savedRecordId: string) => deleteSavedPost(savedRecordId),
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
-        });
-        queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.GET_POSTS],
-        });
-        queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.GET_CURRENT_USER],
-        });
-      },
-    });
-  };
+  
   
