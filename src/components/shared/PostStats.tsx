@@ -52,9 +52,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
                 alt='like'
                 width={20}
                 height={20}
-                onClick={() => {
-
-                }}
+                onClick={handleSavePost}
                 className="cursor-pointer"
             />
         </div>
