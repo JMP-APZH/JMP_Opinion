@@ -36,12 +36,10 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
                 alt='like'
                 width={20}
                 height={20}
-                onClick={() => {
-
-                }}
+                onClick={handleLikePost}
                 className="cursor-pointer"
             />
-            <p className="small-medium lg:base-medium">0</p>
+            <p className="small-medium lg:base-medium">{ likes.length }</p>
         </div>
 
         <div className="flex gap-2">
