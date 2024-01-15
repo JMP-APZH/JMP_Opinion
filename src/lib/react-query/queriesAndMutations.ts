@@ -51,6 +51,15 @@ export const useSignOutAccount = () => {
     })
 }
 
+
+export const useGetCurrentUser = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+    queryFn: getCurrentUser,
+  })
+}
+
+
 export const useCreatePost = () => {
     const queryClient = useQueryClient();
     return useMutation({
@@ -164,10 +173,6 @@ export const useDeleteSavedPost = () => {
       enabled: !!searchTerm,
     });
   };
-  
-  
-  
-  
   
   export const useGetPostById = (postId?: string) => {
     return useQuery({
