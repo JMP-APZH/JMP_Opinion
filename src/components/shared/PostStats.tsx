@@ -39,7 +39,19 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
         likePost({ postId: post.$id, likesArray: newLikes})
     }
 
-    const handleSavePost = () => {}
+    const handleSavePost = (e: React.MouseEvent) => {
+        e.stopPropagation();
+
+        const savedPostRecord = currentUser?.save.find((record: Models.Document) => record.$id === post.$id)
+
+        if(savedPostRecord) {
+            setIsSaved(false)
+            deleteSavedPost(savedPostRecord.$id)
+        }
+
+        setLikes(newLikes);
+        likePost({ postId: post.$id, likesArray: newLikes})
+    }
 
   return (
     <div className="flex justify-between items-center z-20">
