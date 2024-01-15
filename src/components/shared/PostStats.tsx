@@ -45,12 +45,15 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
         const savedPostRecord = currentUser?.save.find((record: Models.Document) => record.$id === post.$id)
 
         if(savedPostRecord) {
-            setIsSaved(false)
-            deleteSavedPost(savedPostRecord.$id)
+            setIsSaved(false);
+            deleteSavedPost(savedPostRecord.$id);
+
+            // return;
+        } else {
+            savePost({ postId: post.$id, userId });
+            setIsSaved(true);
         }
 
-        setLikes(newLikes);
-        likePost({ postId: post.$id, likesArray: newLikes})
     }
 
   return (
