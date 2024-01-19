@@ -316,51 +316,51 @@ export async function updatePost(post: IUpdatePost) {
       imageId: post.imageId,
     }
 
-    // Upload file to appwrite storage
-    const uploadedFile = await uploadFile(post.file[0]);
+    if(hasFileToUpdate) {
 
-    if (!uploadedFile) throw Error;
+      // Upload file to appwrite storage
+      const uploadedFile = await uploadFile(post.file[0]);
+  
+      if (!uploadedFile) throw Error;
+  
+      // Get file url
+      const fileUrl = getFilePreview(uploadedFile.$id);
+  
+      if (!fileUrl) {
+        await deleteFile(uploadedFile.$id);
+        throw Error;
+      }
 
-    // Get file url
-    const fileUrl = getFilePreview(uploadedFile.$id);
-
-    if (!fileUrl) {
-      await deleteFile(uploadedFile.$id);
-      throw Error;
+      image = { ...image, imageUrl: fileUrl, imageId: uploadFile.$id }
     }
+
     // Convert tags into array
     const tags = post.tags?.replace(/ /g, "").split(",") || [];
 
-  //   const creatorID = user.id;
-
      // Save the post in DB
-     const newPost = await databases.createDocument(
+     const updatedPost = await databases.updateDocument(
 
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
-      ID.unique(),
+      post.postId,
       // {}
       {
-      creator: post.userId,
-      //likes: likes,
-      // userId: post.userId,
       caption: post.caption,
-      imageUrl: fileUrl,
+      imageUrl: image.imageUrl,
       // file: fileUrl,
-      imageId: uploadedFile.$id,
+      imageId: image.imageId,
       location: post.location,
       tags: tags,
-      // creator: creatorID,
       }
     );
 
-    if (!newPost) {
-      await deleteFile(uploadedFile.$id);
+    if (!updatedPost) {
+      await deleteFile(post.imageId);
       // throw Error;
-      throw new Error("Failed to create post document.");
+      throw new Error("Failed to update post document.");
     }
 
-    return newPost;
+    return updatedPost;
 
 
   } catch (error) {
