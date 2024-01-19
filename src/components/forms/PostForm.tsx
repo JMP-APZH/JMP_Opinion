@@ -84,7 +84,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
 
     console.log('Complete Post:',value)
 
-    return newPost2
+    // return newPost2
   }
 
   return (
@@ -181,8 +181,9 @@ const PostForm = ({ post, action }: PostFormProps) => {
         <Button 
             type="submit"
             className="shad-button_primary whitespace-nowrap"
+            disabled={isLoadingCreate || isLoadingUpdate}
         >
-            Submit
+          { isLoadingCreate || isLoadingUpdate && 'Loading...' }
         </Button>
     </div>
       </form>
