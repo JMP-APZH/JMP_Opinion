@@ -369,6 +369,24 @@ export async function updatePost(post: IUpdatePost) {
 
   }
 
+// ============================== DELETE POST
+  export async function deletePost(postId: string, imageId: string) {
+    if(!postId || !imageId)
+
+    try{
+      await databases.deleteDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.postCollectionId,
+        postId
+      )
+
+      return { status: 'ok' }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
   
   
  
