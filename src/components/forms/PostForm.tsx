@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom"
 
 type PostFormProps = {
     post?: Models.Document;
-    action: 'Cretate' | 'Update';
+    action: 'Create' | 'Update';
 }
 
 const PostForm = ({ post, action }: PostFormProps) => {
@@ -165,7 +165,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
     <div className="flex gap-4 items-center justify-end">
         <Button 
             type="button" 
-            className="shad-button_dark_4"
+            className="shad-button_dark_4 p-2 rounded-lg"
         >
             Cancel
         </Button>
@@ -180,10 +180,11 @@ const PostForm = ({ post, action }: PostFormProps) => {
 
         <Button 
             type="submit"
-            className="shad-button_primary whitespace-nowrap"
+            className="shad-button_primary whitespace-nowrap p-2 rounded-lg"
             disabled={isLoadingCreate || isLoadingUpdate}
         >
           { isLoadingCreate || isLoadingUpdate && 'Loading...' }
+          {action} Post
         </Button>
     </div>
       </form>
