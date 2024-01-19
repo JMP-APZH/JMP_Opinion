@@ -1,4 +1,4 @@
-import { INewUser, INewPost } from '@/types'
+import { INewUser, INewPost, IUpdatePost } from '@/types'
 import {
     useQuery,
     useMutation,
@@ -23,6 +23,8 @@ import { createUserAccount,
     savePost,
     deleteSavedPost,
     getPostById,
+    updatePost,
+    deletePost,
     // getInfinitePosts,
     // searchPosts,
     // savePost,
@@ -192,7 +194,9 @@ export const useDeleteSavedPost = () => {
   };
   
   export const useUpdatePost = () => {
+
     const queryClient = useQueryClient();
+    
     return useMutation({
       mutationFn: (post: IUpdatePost) => updatePost(post),
       onSuccess: (data) => {
@@ -204,9 +208,11 @@ export const useDeleteSavedPost = () => {
   };
   
   export const useDeletePost = () => {
+
     const queryClient = useQueryClient();
+    
     return useMutation({
-      mutationFn: ({ postId, imageId }: { postId?: string; imageId: string }) =>
+      mutationFn: ({ postId, imageId }: { postId: string; imageId: string }) =>
         deletePost(postId, imageId),
       onSuccess: () => {
         queryClient.invalidateQueries({
