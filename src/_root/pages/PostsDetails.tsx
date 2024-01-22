@@ -1,4 +1,5 @@
 import Loader from "@/components/shared/Loader";
+import PostStats from "@/components/shared/PostStats";
 import { Button } from "@/components/ui/button";
 import { useUserContext } from "@/context/AuthContext";
 import { useGetPostById } from "@/lib/react-query/queriesAndMutations"
@@ -78,7 +79,7 @@ const PostsDetails = () => {
             <hr 
               className="border w-full border-dark-4/80"
             />
-            <div className="small-medium lg:base-medium py-5">
+            <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
                 <p> { post?.caption } </p>
                 <ul className="flex gap-1 mt-2">
                     { post?.tags.map((tag: string) => (
@@ -90,6 +91,11 @@ const PostsDetails = () => {
                         </li>
                     )) }
                 </ul>
+            </div>
+            <div className="w-full">
+              <PostStats 
+                post={post || {}}
+              />
             </div>
           </div>
         </div>
