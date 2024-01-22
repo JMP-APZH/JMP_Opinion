@@ -28,6 +28,11 @@ const Explore = () => {
             />
         </div>
       </div>
+      <div className="flex-between w-full max-w-5xl mt-16 mb-7">
+        <h3 className="body-bold md:h3-bold w-full">
+          Popular Today
+        </h3>
+      </div>
     </div>
   )
 }
