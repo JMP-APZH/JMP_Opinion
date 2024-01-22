@@ -1,4 +1,6 @@
 import Loader from "@/components/shared/Loader";
+import { Button } from "@/components/ui/button";
+import { useUserContext } from "@/context/AuthContext";
 import { useGetPostById } from "@/lib/react-query/queriesAndMutations"
 import { multiFormatDateString } from "@/lib/utils";
 import { Link, useParams } from "react-router-dom";
@@ -7,6 +9,9 @@ const PostsDetails = () => {
 
   const { id } = useParams()
   const { data: post, isPending } = useGetPostById(id || '');
+  const { user } = useUserContext();
+
+  const handleDeletePost = () => {}
 
   return (
     <div className="post_details-container">
@@ -26,7 +31,7 @@ const PostsDetails = () => {
                   <img 
                       src={ post?.creator?.imageUrl || '/assets/icons/profile-placeholder.svg' }
                       alt='creator'
-                      className="rounded-full w-12 lg:h-12"
+                      className="rounded-full w-8 h-8 lg:w-12 lg:h-12"
                   />
               
                 <div className="flex flex-col">
@@ -43,6 +48,32 @@ const PostsDetails = () => {
                     </div>
                 </div>
               </Link>
+              <div className="flex-center gap-4">
+                <Link 
+                  to={`/update-post/${post?.id}`}
+                  className={`${user.id !== post?.creator.$id && 'hidden'}`}
+                >
+                  <img 
+                    src='/assets/icons/edit.svg'
+                    width={24}
+                    height={24}
+                    alt='edit'
+                  />
+                </Link>
+                <Button
+                  onClick={handleDeletePost}
+                  variant='ghost'
+                  className={`ghost_details-delete_btn ${user.id !== post?.creator.$id && 'hidden'}`}  
+                >
+                  <img 
+                    src="/assets/icons/delete.svg" 
+                    alt="delete" 
+                    className="" 
+                    width={24}
+                    height={24}
+                  />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
