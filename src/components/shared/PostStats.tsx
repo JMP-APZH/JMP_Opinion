@@ -22,7 +22,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 
     const { data: currentUser } = useGetCurrentUser();
 
-    const savedPostRecord = currentUser?.save.find((record: Models.Document) => record.post.$id === post.$id);
+    const savedPostRecord = currentUser?.save.find((record: Models.Document) => record.post?.$id === post?.$id);
 
     useEffect(() => {
       setIsSaved(
@@ -59,7 +59,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 
             // return;
         } else {
-            savePost({ postId: post?.$id, userId });
+            savePost({ postId: post?.$id || '', userId });
             setIsSaved(true);
         }
 
