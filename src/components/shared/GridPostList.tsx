@@ -1,6 +1,14 @@
-import React from 'react'
+import { useUserContext } from "@/context/AuthContext";
+import { Models } from "appwrite"
 
-const GridPostList = () => {
+type GridPostListProps = {
+  posts: Models.Document[]
+}
+
+
+const GridPostList = ({ posts }: GridPostListProps) => {
+
+  const { user } = useUserContext();
   return (
     <div>GridPostList</div>
   )
