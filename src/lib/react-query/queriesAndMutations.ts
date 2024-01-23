@@ -26,7 +26,7 @@ import { createUserAccount,
     updatePost,
     deletePost,
     getInfinitePosts,
-    // searchPosts,
+    searchPosts,
     // savePost,
     // deleteSavedPost, 
 } from '@/lib/appwrite/api';
@@ -240,6 +240,14 @@ export const useGetPosts = () => {
       const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
       return lastId;
     },
+  });
+};
+
+export const useSearchPosts = (searchTerm: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.SEARCH_POSTS, searchTerm],
+    queryFn: () => searchPosts(searchTerm),
+    enabled: !!searchTerm,
   });
 };
 
