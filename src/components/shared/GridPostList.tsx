@@ -3,13 +3,16 @@ import { Models } from "appwrite"
 import { Link } from "react-router-dom";
 
 type GridPostListProps = {
-  posts: Models.Document[]
+  posts: Models.Document[];
+  showUser?: boolean;
+  showStats?: boolean;
 }
 
 
-const GridPostList = ({ posts }: GridPostListProps) => {
+const GridPostList = ({ posts, showUser = true, showStats = true }: GridPostListProps) => {
 
   const { user } = useUserContext();
+
   return (
     <ul className="grid-container">
       {posts.map((post) => (
@@ -28,7 +31,17 @@ const GridPostList = ({ posts }: GridPostListProps) => {
               className="h-full w-full object-cover"  
             />
           </Link>
-          {post.caption}
+          <div className="grid-post_user">
+            {showUser && (
+              <div className="flex">
+                <img 
+                  src={post?.creator?.imageUrl}
+                  alt='creator'
+                  className="h-8 w-8 rounded-full"
+                />
+              </div>
+            )}
+          </div>
         </li>
       ))}
     </ul>
