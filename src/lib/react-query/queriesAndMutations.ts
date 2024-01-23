@@ -169,13 +169,6 @@ export const useDeleteSavedPost = () => {
 //     });
 //   };
   
-  export const useSearchPosts = (searchTerm: string) => {
-    return useQuery({
-      queryKey: [QUERY_KEYS.SEARCH_POSTS, searchTerm],
-      queryFn: () => searchPosts(searchTerm),
-      enabled: !!searchTerm,
-    });
-  };
   
   export const useGetPostById = (postId?: string) => {
     return useQuery({
