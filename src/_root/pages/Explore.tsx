@@ -6,6 +6,22 @@ import useDebounce from "@/hooks/useDebounce";
 import { useGetPosts, useSearchPosts } from "@/lib/react-query/queriesAndMutations";
 import { useState } from "react"
 
+export type SearchResultProps = {
+  isSearchFetching: boolean;
+  searchedPosts: any;
+};
+
+const SearchResults = ({ isSearchFetching, searchedPosts }: SearchResultProps) => {
+  if (isSearchFetching) {
+    return <Loader />;
+  } else if (searchedPosts && searchedPosts.documents.length > 0) {
+    return <GridPostList posts={searchedPosts.documents} />;
+  } else {
+    return (
+      <p className="text-light-4 mt-10 text-center w-full">No results found</p>
+    );
+  }
+};
 
 const Explore = () => {
 
@@ -13,7 +29,7 @@ const Explore = () => {
 
   const [searchValue, setSearchValue] = useState('');
   const debouncedValue = useDebounce(searchValue, 500);
-  const { data: searchPosts, isFetching: isSearchFetching } = useSearchPosts(debouncedValue);
+  const { data: searchedPosts, isFetching: isSearchFetching } = useSearchPosts(debouncedValue);
 
   if(!posts) {
     return (
@@ -69,7 +85,8 @@ const Explore = () => {
       <div className="flex flex-wrap gap-9 w-full max-w-5xl">
         {shouldShowSearchResults ? (
           <SearchResults 
-          
+            isSearchFetching={ isSearchFetching }
+            searchedPosts={ searchedPosts }
           />
         ) : shouldShowPosts ? (
           <p className="text-light-4 mt-10 text-center w-full">End of Posts</p>
