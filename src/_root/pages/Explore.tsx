@@ -100,6 +100,11 @@ const Explore = () => {
           )
         )}
       </div>
+      {hasNextPage && !searchValue && (
+        <div href={ref} className="mt-10">
+          <Loader />
+        </div>
+      )}
     </div>
   )
 }
