@@ -5,6 +5,7 @@ import useDebounce from "@/hooks/useDebounce";
 import { useGetPosts, useSearchPosts } from "@/lib/react-query/queriesAndMutations";
 import { Models } from "appwrite";
 import { useState } from "react"
+import { useInView } from "react-intersection-observer";
 
 export type SearchResultProps = {
   isSearchFetching: boolean;
@@ -25,11 +26,20 @@ const SearchResults = ({ isSearchFetching, searchedPosts }: SearchResultProps) =
 
 const Explore = () => {
 
+  const { ref, inView } = useInView();
+
   const { data: posts, fetchNextPage, hasNextPage } = useGetPosts();
 
   const [searchValue, setSearchValue] = useState('');
   const debouncedValue = useDebounce(searchValue, 500);
   const { data: searchedPosts, isFetching: isSearchFetching } = useSearchPosts(debouncedValue);
+
+  // useEffects has to be above all conditional rendering
+  useEffect(() => {
+    if(inView && !searchValue) fetchNextPage();
+    // in [] what is changing and making useEffects render
+  }, [inView, searchValue])
+  
 
   if(!posts) {
     return (
