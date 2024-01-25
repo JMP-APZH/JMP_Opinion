@@ -60,7 +60,8 @@ const Explore = () => {
             className="" />
             <Input 
               type="text" 
-              className="explore-search" 
+              className="explore-search w-full" 
+              // width={100}
               placeholder="Search"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
